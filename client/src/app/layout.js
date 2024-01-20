@@ -6,7 +6,7 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-import { ToastContainer } from 'react-toastify';
+import { Slide, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 export const metadata = {
   title: 'Hanover - Sajilo delivery',
@@ -20,13 +20,13 @@ export default function RootLayout({ children }) {
           <Providers>
 
             <ToastContainer
-              position="top-center"
+              position="top-right"
               theme="light"
+              autoClose={4000}
               hideProgressBar
               closeOnClick
+              transition= {Slide}
             />
-
-            {/* <ToastContainer /> */}
 
             {children}
           </Providers>

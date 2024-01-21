@@ -272,10 +272,10 @@ function App() {
 
 <details>
 <summary>Forms</summary>
-* [x] User Login
-* [x] User Sign up
-* [x] User reset password
-* [x] Contact Us
+- [x] User Login
+- [x] User Sign up
+- [x] User reset password
+- [x] Contact Us
 </details>
 
 <details>

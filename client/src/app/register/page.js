@@ -22,6 +22,7 @@ const SignupForm = () => {
         confirmPassword: Yup.string()
             .required('Confirm password required')
             .oneOf([Yup.ref('password'), null], "Passwords doesn't match!"),
+            email: Yup.string().email('Invalid email').required('Required'),
     });
 
     const registerUser = async (values) => {

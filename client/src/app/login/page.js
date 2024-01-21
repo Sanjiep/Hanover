@@ -1,19 +1,64 @@
 'use client'
 
+import { Checkbox, Button, Divider, Switch } from "@nextui-org/react";
 import React from 'react'
 import { useState } from 'react';
-import { Checkbox, Button, Divider, Switch } from "@nextui-org/react";
 import Link from 'next/link';
 import PageLayout from '@/components/pageLayout/page'
 import Nav from '@/components/navbar/page'
 import Footer from '@/components/footer/page'
+import { Formik, useFormik } from 'formik';
+import { toast } from 'react-toastify';
+import * as Yup from 'yup';
+import { Router } from "next/navigation";
 
 const login = () => {
+
+    const logInSchema = Yup.object().shape({
+        email: Yup.string().email('Invalid email').required('Required'),
+        password: Yup.string()
+            .required('Password required')
+            .min(8, 'Password must be at least 8 characters')
+            .matches(
+                /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
+                'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
+            ),
+    })
+
+    const loginUser = async (values) => {
+        const res = await fetch('http://localhost:4000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+        });
+
+        const data = await res.json()
+        if (res.status === 200) {
+            router.push('/login')
+        }
+        toast(data.msg)
+
+    }
+
+
+    const formik = useFormik({
+        initialValues: {
+            email: '',
+            password: '',
+        },
+        validationSchema: logInSchema,
+        onSubmit: (values) => {
+            loginUser(values)
+        },
+    });
+
+
     const [isVisible, setIsVisible] = useState(false);
     const toggleVisibility = () => setIsVisible(!isVisible);
 
     return (
-        <div>
+        <form onSubmit={formik.handleSubmit}>
+
             {/* header*/}
             <div className="flex min-h-full pt-10 pb-20 flex-1 flex-col justify-center px-4 py-5 lg:px-8">
                 <div className="sm:mx-auto sm:w-lg sm:max-w-sm">
@@ -31,21 +76,26 @@ const login = () => {
 
                 {/* email input*/}
                 <div className="mt-5 sm:mx-auto sm:w-full sm:max-w-sm">
-                    <form className="space-y-6" action="#" method="POST">
+                    <div className="space-y-6" action="#" method="POST">
                         <div>
                             <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
                                 Email address
                             </label>
                             <div className="mt-2">
                                 <input
+                                    onChange={formik.handleChange}
                                     id="email"
                                     name="email"
                                     type="email"
+                                    onBlur={formik.handleBlur}
+                                    value={formik.values.email}
+                                    label='email'
                                     placeholder='Enter your email'
                                     autoComplete="email"
                                     required
                                     className="block w-full rounded-md border-0 py-3 px-4 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
                                 />
+
                             </div>
                         </div>
 
@@ -74,7 +124,11 @@ const login = () => {
 
                                 <div className="flex items-center">
 
-                                    <input placeholder='Enter your password' label="Password" id="password" name="password" className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-gray-500 focus:ring-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="password-error" type={isVisible ? 'text' : 'password'}
+                                    <input
+                                        onBlur={formik.handleBlur}
+                                        onChange={formik.handleChange}
+                                        value={formik.values.password}
+                                        placeholder='Enter your password' label="password" id="password" name="password" className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-gray-500 focus:ring-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="password-error" type={isVisible ? 'text' : 'password'}
                                     />
                                     <button className="focus:outline-none absolute right-4" type="button" onClick={toggleVisibility}>
                                         {isVisible ? (
@@ -95,7 +149,8 @@ const login = () => {
                                         )}
                                     </button>
 
-                                    <div className="hidden absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
+
+                                    <div className="invisible absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
 
 
 
@@ -104,24 +159,14 @@ const login = () => {
                                         </svg>
                                     </div>
                                 </div>
-                                <p className="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p>
-                            </div>
 
-                            {/* <div className="mt-2">
-                                <input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    autoComplete="current-password"
-                                    required
-                                    className="block w-full rounded-md border-0 px-2 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset sm:text-sm sm:leading-6"
-                                />
-                            </div> */}
+                                {/* <p className="hidden text-xs text-red-600 mt-2" id="password-error">8+ characters required</p> */}
+                            </div>
                         </div>
 
                         {/* Remember me*/}
                         <div>
-                            <Switch defaultSelected size="sm" className='font-medium' color='#dc2626'>Remember me</Switch>
+                            <Switch size="sm" className='font-medium' color='#dc2626'>Remember me</Switch>
                         </div>
 
                         {/* Sign In button*/}
@@ -132,12 +177,12 @@ const login = () => {
                                 Sign in
                             </button>
                         </div>
-                    </form>
+                    </div>
 
                     {/* Create account */}
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
-                        <Link href="/register" className="font-semibold leading-6 text-red-600 hover:text-red-400">
+                        <Link href="/register" className="font-medium leading-6 text-red-600 hover:underline decoration-2">
                             Create account
                         </Link>
                     </p>
@@ -158,7 +203,7 @@ const login = () => {
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     )
 }
 

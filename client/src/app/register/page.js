@@ -9,9 +9,23 @@ import './styles.css'
 import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation'
 
 const SignupForm = () => {
+    const router = useRouter()
+
     const SignupSchema = Yup.object().shape({
+        firstName: Yup.string()
+        .required('First name required'),
+
+        lastName: Yup.string()
+        .required('Last name required'),
+
+        phoneNumber: Yup.string()
+        // .matches(/^\d+$/, 'Phone number should only contain digits')
+        .min(10, 'Phone number must be at least 10 digits')
+        .required('Phone number is required'),
+        
         password: Yup.string()
             .required('Password required')
             .min(8, 'Password must be at least 8 characters')
@@ -22,7 +36,8 @@ const SignupForm = () => {
         confirmPassword: Yup.string()
             .required('Confirm password required')
             .oneOf([Yup.ref('password'), null], "Passwords doesn't match!"),
-            email: Yup.string().email('Invalid email').required('Required'),
+            
+        email: Yup.string().email('Invalid email').required('Email required'),
     });
 
     const registerUser = async (values) => {
@@ -38,9 +53,10 @@ const SignupForm = () => {
                 const errorData = await res.json(); // Assuming the server returns JSON with an error message
                 throw new Error(errorData.msg || 'Registration failed!');
             }
-    
+            
             const data = await res.json();
             toast.success(data.msg);
+            router.push('/login')
         } catch (error) {
             toast.error(error.message || 'Something is wrong!!');
         }
@@ -75,7 +91,7 @@ const SignupForm = () => {
 
     const handleInputChange = (event) => {
         // Limit the input to 15 characters
-        const inputValue = event.target.value.slice(0, 15);
+        const inputValue = event.target.value.slice(0, 10);
         formik.setFieldValue('phoneNumber', inputValue);
     };
 
@@ -120,18 +136,19 @@ const SignupForm = () => {
                                 <div class="grid grid-cols-2 gap-4">
 
                                     <div>
-                                        <label htmlFor="firstName" className="block text-sm mb-2 dark:text-white">First name</label>
+                                        <label htmlFor="firstName" className="block text-sm mb-2 dark:text-white">First name{formik.touched.firstName && formik.errors.firstName && <span className="text-red-500">*</span>}</label>
                                         <div className="relative">
                                             <input type="text" placeholder='First name' id="firstName" onChange={formik.handleChange}
-
                                                 value={formik.values.firstName}
+                                                onBlur={formik.handleBlur}
                                                 label='firstName'
                                                 name="firstName"
-                                                className="py-3 px-4 block capitalize w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required />
+                                                className={`py-3 px-4 block capitalize w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 ${formik.errors.firstName && formik.touched.firstName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required />
                                         </div>
+                                        {formik.errors.firstName && formik.touched.firstName && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.firstName}</div>}
                                     </div>
                                     <div>
-                                        <label htmlFor="lastName" className="block text-sm mb-2 dark:text-white">Last name</label>
+                                        <label htmlFor="lastName" className="block text-sm mb-2 dark:text-white">Last name{formik.touched.lastName && formik.errors.lastName && <span className="text-red-500">*</span>}</label>
                                         <div className="relative">
                                             <input type="text" placeholder='Last Name' id="lastName"
                                                 onChange={formik.handleChange}
@@ -139,14 +156,15 @@ const SignupForm = () => {
                                                 value={formik.values.lastName}
                                                 label='lastName'
                                                 name="lastName"
-                                                className="py-3 px-4 capitalize block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required />
+                                                className={`py-3 px-4 capitalize block w-full border-gray-200 border-1 rounded-lg ${formik.errors.lastName && formik.touched.lastName ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} text-sm focus:border-red-500 focus:ring-red-500 dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required />
 
                                         </div>
+                                        {formik.errors.lastName && formik.touched.lastName && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.lastName}</div>}
                                     </div>
 
                                     <div>
                                         <label htmlFor="email" className="block text-sm mb-2 dark:text-white">
-                                            Email
+                                            Email{formik.touched.email && formik.errors.email && <span className="text-red-500">*</span>}
                                         </label>
                                         <div className="relative">
                                             <input
@@ -158,10 +176,10 @@ const SignupForm = () => {
                                                 onChange={formik.handleChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.email}
-                                                className="py-3 px-4 block w-full border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                                className={`py-3 px-4 block w-full border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none ${formik.errors.email && formik.touched.email ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`}
                                                 required
                                                 aria-describedby="email-error"
-                                            /> {formik.errors.email && <div className='text-red-500'>{formik.errors.email}</div>}
+                                            /> {formik.errors.email && formik.touched.email && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.email}</div>}
                                             <div className="invisible absolute inset-y-0 end-0 flex items-center pointer-events-none pe-2">
                                                 <svg
                                                     className="h-5 w-5 text-red-500"
@@ -182,16 +200,16 @@ const SignupForm = () => {
 
 
                                     <div>
-                                        <label htmlFor="phoneNumber" className="block text-sm mb-2 dark:text-white">Phone Number</label>
+                                        <label htmlFor="phoneNumber" className="block text-sm mb-2 dark:text-white">Phone Number{formik.touched.phoneNumber && formik.errors.phoneNumber && <span className="text-red-500">*</span>}</label>
                                         <div className="relative">
                                             <input type="number" placeholder='Phone number' id="phoneNumber" name="phoneNumber"
                                                 onChange={handleInputChange}
                                                 onBlur={formik.handleBlur}
                                                 value={formik.values.phoneNumber}
-                                                label='firstName'
+                                                label='phoneNumber'
                                                 onKeyPress={handleKeyPress}
-                                                className="py-3 px-4 block appearance-none w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required aria-describedby="phoneNumber-error" />
-                                            {formik.errors.phoneNumber && <div className='text-red-500'>{formik.errors.phoneNumber}</div>}
+                                                className={`py-3 px-4 block appearance-none w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none ${formik.errors.phoneNumber && formik.touched.phoneNumber ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required aria-describedby="phoneNumber-error" />
+                                            {formik.errors.phoneNumber && formik.touched.phoneNumber && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.phoneNumber}</div>}
                                         </div>
                                     </div>
 
@@ -203,7 +221,7 @@ const SignupForm = () => {
                                 <div className="grid gap-y-3 pt-3">
 
                                     <div className='relative'>
-                                        <label htmlFor="password" variant="bordered" className="block text-sm mb-2 dark:text-white">Password</label>
+                                        <label htmlFor="password" variant="bordered" className="block text-sm mb-2 dark:text-white">Password{formik.touched.password && formik.errors.password && <span className="text-red-500">*</span>}</label>
                                         <div className="grid">
 
                                             <div className="flex items-center">
@@ -211,7 +229,7 @@ const SignupForm = () => {
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.password}
-                                                    className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="password error" type={isVisible ? 'text' : 'password'}
+                                                    className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-gray-500 disabled:opacity-50 ${formik.errors.password && formik.touched.password ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="password error" type={isVisible ? 'text' : 'password'}
                                                 />
 
                                                 <button className="focus:outline-none absolute right-4" type="button" onClick={toggleVisibility}>
@@ -233,7 +251,7 @@ const SignupForm = () => {
                                                     )}
                                                 </button>
                                             </div>
-                                            {formik.errors.password && (<div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.password}</div>
+                                            {formik.errors.password && formik.touched.password && (<div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.password}</div>
                                             )}
 
                                             <div className="invisible absolute inset-y-0 end-0 flex items-center pointer-events-none pe-3">
@@ -250,7 +268,7 @@ const SignupForm = () => {
 
 
                                     <div className='relative'>
-                                        <label htmlFor="confirmPassword" variant="bordered" className="block text-sm mb-2 dark:text-white">Confirm Password</label>
+                                        <label htmlFor="confirmPassword" variant="bordered" className="block text-sm mb-2 dark:text-white">Confirm Password{formik.touched.confirmPassword && formik.errors.confirmPassword && <span className="text-red-500">*</span>}</label>
                                         <div className="grid">
 
                                             <div className="flex items-center">
@@ -258,7 +276,7 @@ const SignupForm = () => {
                                                     onChange={formik.handleChange}
                                                     onBlur={formik.handleBlur}
                                                     value={formik.values.confirmPassword}
-                                                    name="confirmPassword" className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-gray-500 focus:ring-gray-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="confirmPassword-error" type={isVisible ? 'text' : 'password'}
+                                                    name="confirmPassword" className={`py-3 px-4 block w-full border-gray-200 border-1 rounded-lg text-sm focus:border-gray-500 focus:ring-gray-500 ${formik.errors.confirmPassword && formik.touched.confirmPassword ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600 ${isVisible ? 'text-black' : null}`} required aria-describedby="confirmPassword-error" type={isVisible ? 'text' : 'password'}
                                                 />
 
                                                 <button className="focus:outline-none absolute right-4" type="button" onClick={toggleVisibility}>

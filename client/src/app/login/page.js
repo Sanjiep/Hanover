@@ -1,45 +1,44 @@
-'use client'
+'use client';
 
-import { Checkbox, Button, Divider, Switch } from "@nextui-org/react";
-import React from 'react'
-import { useState } from 'react';
+import { Checkbox, Button, Switch } from "@nextui-org/react";
+import React, { useState } from 'react';
 import Link from 'next/link';
-import PageLayout from '@/components/pageLayout/page'
-import Nav from '@/components/navbar/page'
-import Footer from '@/components/footer/page'
-import { Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
-import { Router } from "next/navigation";
+import { useRouter } from 'next/navigation';
 
-const login = () => {
+const Login = () => {
+    const router = useRouter();
 
     const logInSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
         password: Yup.string()
             .required('Password required')
-            .min(8, 'Password must be at least 8 characters')
-            .matches(
-                /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]/,
-                'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-            ),
-    })
+    });
 
     const loginUser = async (values) => {
-        const res = await fetch('http://localhost:4000/login', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-        });
+        try {
+            const res = await fetch('http://localhost:4000/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
 
-        const data = await res.json()
-        if (res.status === 200) {
-            router.push('/login')
+            const data = await res.json();
+
+            if (res.status === 200) {
+                toast.success('Login successful');
+                // Redirect to the appropriate page upon successful login
+                router.push('/dashboard');
+            } else {
+                toast.error(data.msg);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            toast.error('An unexpected error occurred');
         }
-        toast(data.msg)
-
-    }
-
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -207,4 +206,4 @@ const login = () => {
     )
 }
 
-export default login
+export default Login

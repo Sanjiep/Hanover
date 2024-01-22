@@ -16,16 +16,17 @@ const SignupForm = () => {
 
     const SignupSchema = Yup.object().shape({
         firstName: Yup.string()
-        .required('First name required'),
+            .required('First name required'),
 
         lastName: Yup.string()
-        .required('Last name required'),
+            .required('Last name required'),
 
         phoneNumber: Yup.string()
-        // .matches(/^\d+$/, 'Phone number should only contain digits')
-        .min(10, 'Phone number must be at least 10 digits')
-        .required('Phone number is required'),
-        
+            // .matches(/^\d+$/, 'Phone number should only contain digits')
+            .required('Phone number is required')
+            .min(10, 'Phone number must be at least 10 digits')
+            .matches(/^(97|98|96)\d{8}$/, 'Invalid phone number'),
+
         password: Yup.string()
             .required('Password required')
             .min(8, 'Password must be at least 8 characters')
@@ -36,7 +37,7 @@ const SignupForm = () => {
         confirmPassword: Yup.string()
             .required('Confirm password required')
             .oneOf([Yup.ref('password'), null], "Passwords doesn't match!"),
-            
+
         email: Yup.string().email('Invalid email').required('Email required'),
     });
 
@@ -53,7 +54,7 @@ const SignupForm = () => {
                 const errorData = await res.json(); // Assuming the server returns JSON with an error message
                 throw new Error(errorData.msg || 'Registration failed!');
             }
-            
+
             const data = await res.json();
             toast.success(data.msg);
             router.push('/login')
@@ -101,7 +102,7 @@ const SignupForm = () => {
 
             <div className="h-full">
                 <div className="dark:bg-slate-900 flex h-full items-center">
-                    <div className="w-full max-w-xl mx-auto">
+                    <div className="w-full max-w-lg mx-auto">
                         <div className="p-4 mt-3 sm:p-5">
                             <div className="text-center">
                                 <Link href='/'><img
@@ -202,15 +203,18 @@ const SignupForm = () => {
                                     <div>
                                         <label htmlFor="phoneNumber" className="block text-sm mb-2 dark:text-white">Phone Number{formik.touched.phoneNumber && formik.errors.phoneNumber && <span className="text-red-500">*</span>}</label>
                                         <div className="relative">
-                                            <input type="number" placeholder='Phone number' id="phoneNumber" name="phoneNumber"
-                                                onChange={handleInputChange}
-                                                onBlur={formik.handleBlur}
-                                                value={formik.values.phoneNumber}
-                                                label='phoneNumber'
-                                                onKeyPress={handleKeyPress}
-                                                className={`py-3 px-4 block appearance-none w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none ${formik.errors.phoneNumber && formik.touched.phoneNumber ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required aria-describedby="phoneNumber-error" />
-                                            {formik.errors.phoneNumber && formik.touched.phoneNumber && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.phoneNumber}</div>}
+                                            <div className="flex items-center">
+                                                <span className="left-2 absolute font-semibold text-sm text-gray-500">+977</span>
+                                                <input type="tel" placeholder='Phone number' id="phoneNumber" name="phoneNumber"
+                                                    onChange={handleInputChange}
+                                                    onBlur={formik.handleBlur}
+                                                    value={formik.values.phoneNumber}
+                                                    label='phoneNumber'
+                                                    onKeyPress={handleKeyPress}
+                                                    className={`py-3 px-12 block appearance-none w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none ${formik.errors.phoneNumber && formik.touched.phoneNumber ? 'border-red-500 focus:border-red-500' : 'border-gray-200 focus:border-red-500 focus:ring-red-500'} placeholder: placeholder:grid dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required aria-describedby="phoneNumber-error" />
+                                            </div>
                                         </div>
+                                                {formik.errors.phoneNumber && formik.touched.phoneNumber && <div className='text-red-500 dark:text-gray-300 text-sm pt-1'>{formik.errors.phoneNumber}</div>}
                                     </div>
 
 

@@ -30,7 +30,7 @@ const Login = () => {
             if (res.status === 200) {
                 toast.success('Login successful');
                 // Redirect to the appropriate page upon successful login
-                router.push('/dashboard');
+                router.push('/login');
             } else {
                 toast.error(data.msg);
             }

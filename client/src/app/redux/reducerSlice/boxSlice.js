@@ -4,7 +4,7 @@ const initialState = {
   width:100,
   height:100,
   background:'red',
-  radius:0,
+  borRadius:0,
 }
 
 
@@ -22,7 +22,7 @@ export const boxSlice = createSlice({
     state.background = action.payload
   },
   changeRadius: (state, action) =>{
-    state.radius = action.payload
+    state.borRadius = action.payload
   }
 }});
 

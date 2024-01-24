@@ -59,7 +59,7 @@ const Login = () => {
         <form onSubmit={formik.handleSubmit}>
 
             {/* header*/}
-            <div className="flex min-h-full pt-10 pb-20 flex-1 flex-col justify-center px-4 py-5 lg:px-8">
+            <div className="flex min-h-full pt-8 pb-20 flex-1 flex-col justify-center px-4 py-5 lg:px-8">
                 <div className="sm:mx-auto sm:w-lg sm:max-w-sm">
                     <Link href='/'><img
                         className="mx-auto h-24 w-auto"

@@ -14,12 +14,23 @@ export default function PrelineScript() {
   const path = usePathname();
 
   useEffect(() => {
-    import("preline/preline");
+    const loadPreline = async () => {
+      try {
+        const prelineModule = await import("preline/preline");
+        // Do something with the preline module if needed
+      } catch (error) {
+        console.error("Error loading preline module:", error);
+      }
+    };
+
+    loadPreline();
   }, []);
 
   useEffect(() => {
     setTimeout(() => {
-      window.HSStaticMethods.autoInit();
+      if (window.HSStaticMethods && window.HSStaticMethods.autoInit) {
+        window.HSStaticMethods.autoInit();
+      }
     }, 100);
   }, [path]);
 

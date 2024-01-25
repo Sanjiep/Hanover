@@ -194,7 +194,7 @@ const Login = () => {
                             Or continue with
                         </p>
                     </div>
-                    <div className="flex mt-5 gap-5 items-center">
+                    <div className="flex justify-items-center mt-5 gap-5 items-center">
                         <Button className='px-12 py-2 font-semibold bg-transparent border-1 border-black' radius="sm" size='md'><img className='w-5 ' src="google.svg" />
                             Google</Button>
                         <Button className='px-12 font-semibold bg-transparent border-1 border-black' radius="sm" size='md'><img className='w-5 ' src="github.svg" />

@@ -3,7 +3,8 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   width:100,
   height:100,
-  background:'red',
+  background:'black',
+  borderRadius:0,
   borRadius:0,
 }
 
@@ -12,22 +13,30 @@ export const boxSlice = createSlice({
   name: 'box',
   initialState,
   reducers: {
-    inWidth: (state, action) => {
+    changeWidthIncre: (state, action) => {
       state.width++
   },
-    deWidth: (state, action) => {
+    changeWidthDecre: (state, action) => {
       state.width--
   },
   changeBgColor: (state, action) =>{
     state.background = action.payload
   },
   changeRadius: (state, action) =>{
-    state.borRadius = action.payload
-  }
+   
+  },
+  changeShape: (state, action) =>{
+     state.borderRadius = action.payload
+    if(state.borderRadius === 50){
+      state.borderRadius = 0
+    }else{
+      state.borderRadius = 50
+    }
+  },
 }});
 
 // this is for dispatch
-export const { inWidth, deWidth, changeBgColor, changeRadius } = boxSlice.actions;
+export const { changeWidthIncre, changeWidthDecre, changeBgColor, changeRadius, changeShape } = boxSlice.actions;
 
 // this is for configureStore
 export default boxSlice.reducer;

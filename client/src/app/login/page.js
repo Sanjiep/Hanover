@@ -7,10 +7,13 @@ import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
+import { addUserDetails } from "../redux/reducerSlice/userSlice";
+import { UseDispatch, useDispatch } from "react-redux";
 
 const Login = () => {
     const router = useRouter();
 
+    const dispatch = useDispatch()
     const logInSchema = Yup.object().shape({
         email: Yup.string().email('Invalid email').required('Required'),
         password: Yup.string()
@@ -30,7 +33,8 @@ const Login = () => {
             if (res.status === 200) {
                 toast.success('Login successful');
                 // Redirect to the appropriate page upon successful login
-                router.push('/login');
+                dispatch(addUserDetails(data))
+                router.push('/dashboard');
             } else {
                 toast.error(data.msg);
             }

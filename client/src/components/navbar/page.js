@@ -9,7 +9,7 @@ import Link from 'next/link';
 function navbar() {
   return (
     <div className="sticky top-0 flex shadow-sm backdrop-filter border-b backdrop-blur-lg bg-opacity-80 flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-2 dark:bg-gray-800">
-      <nav className="max-w-[85rem] w-full py-1 mx-auto px-4 md:px-6 lg:px-8" aria-label="Global">
+      <nav className="max-w-[85rem] w-full mx-auto px-4 md:px-6 lg:px-8" aria-label="Global">
         <div className="relative md:flex md:items-center md:justify-between">
           <div className="flex items-center justify-between">
             <Link href='/'>

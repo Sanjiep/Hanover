@@ -9,7 +9,9 @@ function Dashboard() {
 
     return (
         <div>
-            <DashNav/>
+            <DashNav>
+                
+            </DashNav>
         </div>
     )
 }

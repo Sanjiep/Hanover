@@ -4,7 +4,7 @@ import DashNav from '@/components/dashboardnav/page'
 function Invoice() {
     return (
         <div>
-            <DashNav />
+            <DashNav>
             <div class="max-w-[80rem] px-4 sm:px-6 py-4 ml-auto">
                 <div class="flex flex-col">
                     <div class="-m-1.5 overflow-x-auto">
@@ -757,6 +757,7 @@ function Invoice() {
                     </div>
                 </div>
             </div>
+            </DashNav>
         </div>
     )
 }

@@ -31,7 +31,7 @@ const Login = () => {
             const data = await res.json();
 
             if (res.status === 200) {
-                toast.success('Login successful');
+                // toast.success('Login successful');
                 // Redirect to the appropriate page upon successful login
                 dispatch(addUserDetails(data))
                 router.push('/dashboard');

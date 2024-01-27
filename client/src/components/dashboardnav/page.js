@@ -4,8 +4,16 @@ import React from 'react'
 import PrelineScript from '../PrelineScript'
 import Link from 'next/link'
 import { Divider } from '@nextui-org/react'
+import { logout } from '@/app/redux/reducerSlice/userSlice'
+import { UseDispatch, useDispatch } from 'react-redux'
 
 const DashNav = () => {
+
+    const dispatch = useDispatch()
+    const handleLogOut = () =>{
+        dispatch(logout())
+    }
+
     return (
 
         <div className="bg-gray-50 dark:bg-slate-900">
@@ -152,7 +160,7 @@ const DashNav = () => {
                                         Help & Feedback
                                     </a>
                                     <hr className="m-2 border-gray-300 dark:border-white" />
-                                    <a className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-red-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#" data-hs-overlay="#hs-sign-out-alert">
+                                    <a onClick={handleLogOut} className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-red-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300" href="#" data-hs-overlay="#hs-sign-out-alert">
                                         <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" ><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
                                         Sign out
                                     </a>

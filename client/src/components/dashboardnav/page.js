@@ -1,16 +1,20 @@
 'use client'
 
-import React from 'react'
+import React, { Children } from 'react'
 import PrelineScript from '../PrelineScript'
 import Link from 'next/link'
 import { Divider } from '@nextui-org/react'
 import { logout } from '@/app/redux/reducerSlice/userSlice'
-import { UseDispatch, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { useRouter, usePathname } from 'next/navigation'
 
-const DashNav = () => {
-
+const DashNav = ({ children }) => {
     const dispatch = useDispatch()
-    const handleLogOut = () =>{
+    const router = useRouter();
+
+    const isActive = (path) => router.pathname === (path);
+
+    const handleLogOut = () => {
         dispatch(logout())
     }
 
@@ -192,19 +196,19 @@ const DashNav = () => {
                 </div>
             </div>
 
-            <div id="application-sidebar" className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform hidden fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-7 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700">
+            <div id="application-sidebar" className="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transition-all duration-300 transform fixed top-0 start-0 bottom-0 z-[60] w-64 bg-white border-e border-gray-200 pt-5 pb-10 overflow-y-auto lg:block lg:translate-x-0 lg:end-auto lg:bottom-0 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500 dark:bg-gray-800 dark:border-gray-700">
                 <div className="px-6">
-                    <Link className="flex-none text-xl font-semibold dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/" aria-label="Brand"><img className='w-60' src='hanover.svg' /></Link>
+                    <Link className="flex-none text-xl font-semibold dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/dashboard" aria-label="Brand"><img className='w-60' src='hanover.svg' /></Link>
                 </div>
 
                 <nav className="hs-accordion-group p-6 w-full flex flex-col flex-wrap" data-hs-accordion-always-open>
-                    <span className='text-sm mb-5 text-gray-700 dark:text-gray-200 font-semibold'>Main Tools</span>
+                    <span className='text-sm p-2 mb-2 text-gray-700 dark:text-gray-200 font-semibold'>Main Tools</span>
                     <ul className="space-y-1.5">
                         <li>
-                            <a className="flex items-center gap-x-3.5 py-2 px-2.5 bg-gray-100 text-sm font-medium text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                            <Link className={`flex items-center gap-x-3.5 py-2 px-2.5 ${isActive("/dashboard") ? "bg-gray-100" : ""} text-sm font-medium text-slate-700 rounded-lg hover:bg-gray-100 dark:bg-gray-900 dark:text-white dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600`} href="/dashboard">
                                 <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><polyline points="9 22 9 12 15 12 15 22" /></svg>
                                 Dashboard
-                            </a>
+                            </Link>
                         </li>
 
                         <li className="hs-accordion" id="users-accordion">
@@ -328,25 +332,26 @@ const DashNav = () => {
                             Analytic
                         </a></li>
 
-                        <div className='grid lg:pt-40 items-end gap-y-0'>
-                            <span className='text-sm px-2.5 text-slate-700 font-medium'>Help and Support</span>
-                            <ul>
-                                <li>
-                                    <a className="w-full font-medium flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                                        <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                                            <path fillRule="evenodd" d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1c.6 0 1-.4 1-1V9a5 5 0 1 1 10 0v7a3 3 0 0 1-3 3 2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1c0 1.1.9 2 2 2h1a2 2 0 0 0 1.7-1h.4a5 5 0 0 0 4.8-4h.1a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.5 3.3a4 4 0 0 0-4.4 1 1 1 0 0 0 1.4 1.3 2 2 0 0 1 2.9 0A1 1 0 1 0 14.8 6a4 4 0 0 0-1.3-.8Z" clipRule="evenodd" />
-                                        </svg>
-
-                                        Support
-                                    </a>
-                                </li>
-                                <li>
-                                    <a className="w-full font-medium flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
-                                        <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
-                                        Get Help
-                                    </a>
-                                </li>
-                            </ul>
+                        <div className='grid lg:pt-40 items-end gap-y-0 h-full'>
+                            <div className="mt-auto">
+                                <span className='text-sm px-2.5 text-slate-700 font-medium'>Help and Support</span>
+                                <ul>
+                                    <li>
+                                        <a className="w-full font-medium flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                                            <svg className="flex-shrink-0 w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                                <path fillRule="evenodd" d="M12 2a7 7 0 0 0-7 7 3 3 0 0 0-3 3v2a3 3 0 0 0 3 3h1c.6 0 1-.4 1-1V9a5 5 0 1 1 10 0v7a3 3 0 0 1-3 3 2 2 0 0 0-2-2h-1a2 2 0 0 0-2 2v1c0 1.1.9 2 2 2h1a2 2 0 0 0 1.7-1h.4a5 5 0 0 0 4.8-4h.1a3 3 0 0 0 3-3v-2a3 3 0 0 0-3-3 7 7 0 0 0-7-7Zm1.5 3.3a4 4 0 0 0-4.4 1 1 1 0 0 0 1.4 1.3 2 2 0 0 1 2.9 0A1 1 0 1 0 14.8 6a4 4 0 0 0-1.3-.8Z" clipRule="evenodd" />
+                                            </svg>
+                                            Support
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a className="w-full font-medium flex items-center gap-x-3.5 py-2 px-2.5 text-sm text-slate-700 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-900 dark:text-slate-400 dark:hover:text-slate-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">
+                                            <svg className="flex-shrink-0 w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><path d="M12 17h.01" /></svg>
+                                            Get Help
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
                     </ul>
                 </nav>
@@ -387,7 +392,9 @@ const DashNav = () => {
                     </div>
                 </div>
             </div>
-
+            <div className="ml-4 lg:ml-64 p-4 lg:m-auto">
+                {children}
+            </div>
             <PrelineScript />
         </div >
     )

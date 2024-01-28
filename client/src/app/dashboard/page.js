@@ -62,9 +62,6 @@ function Dashboard() {
                         </div>
                     </div>
                 </div>
-
-                
-
             </DashNav>
         </div>
     )

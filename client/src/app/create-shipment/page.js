@@ -5,8 +5,14 @@ function CreateOrder() {
     return (
         <div>
             <DashNav>
-                <div id="form-modals" className="max-w-2xl px-4 py-10 sm:px-6 lg:px-8 lg:py-14 mx-auto">
-                    <div className="bg-white rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
+                {/* <div className="relative bg-opacity-50 bg-local bg-cover bg-repeat" style={{ backgroundImage: 'url("https://images.pexels.com/photos/7363190/pexels-photo-7363190.jpeg")' }}>
+                <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 1))' }}></div> */}
+                <div className=' relative z-5 max-w-lg sm:px-6 xl px-4 py-lg:px-8 lg:py-14 ml-24'>
+                    <div className='grid ml-auto justify-end text-start'>
+                        <h3 className='font-bold text-3xl text-gray-100'>Get your shipment picked up from your <span className='font-bold text-3xl text-red-500'>doorstep</span></h3>
+                        <p>Send your parcel from the comfort of your home or office</p>
+                    </div>
+                    <div className="bg-transparent border rounded-xl shadow p-4 sm:p-7 dark:bg-slate-900">
                         <div className="text-center mb-8">
                             <h2 className="text-2xl md:text-3xl font-bold text-gray-800 dark:text-gray-200">
                                 Form details
@@ -81,8 +87,9 @@ function CreateOrder() {
                         </div>
                     </div>
                 </div>
+                {/* </div> */}
             </DashNav>
-        </div>
+        </div >
     )
 }
 

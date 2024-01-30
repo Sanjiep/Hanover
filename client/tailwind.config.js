@@ -14,6 +14,7 @@ module.exports = {
       colors: {
         white: "#FFFFFF",
         black: "#00000",
+        danger: "#ef4444",
           primary: {
             DEFAULT: "#dc2626",
             foreground: "#000000",

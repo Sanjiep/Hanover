@@ -8,6 +8,9 @@ function Dashboard() {
     return (
         <div>
             <DashNav>
+                <div>
+                    <h1 className='text-xl font-bold text-gray-600 mb-5'>Overview</h1>
+                </div>
                 <div className='grid xl:grid-cols-4 gap-4 mb-5 sm:grid-cols-2 '>
                     <div class="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
                         <div class="p-2 md:p-4">

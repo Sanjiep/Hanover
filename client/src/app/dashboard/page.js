@@ -138,6 +138,10 @@ function Dashboard() {
                             </Link>
                         </div>
                     </div>
+                    <div>
+                    <h1 className='text-xl font-bold text-gray-600 mb-5'>Shipment History</h1>
+                </div>
+                    
                 </div>
             </DashNav>
         </div>

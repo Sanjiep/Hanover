@@ -9,7 +9,10 @@ app.use(express.json())
 connection()
 
 const userRoute = require('./routes/user')
+const contactRoute = require('./routes/contact')
+
 app.use(userRoute)
+app.use(contactRoute)
 const port = process.env.PORT
 
 app.get('/hello', (req, res) => {

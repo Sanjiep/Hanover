@@ -3,7 +3,8 @@ const { Schema } = mongoose;
 
 const contactSchema = new Schema({
   userId: String,
-  fullName: String,
+  firstName: String,
+  lastName: String,
   country: String,
   address: String,
   email: String,

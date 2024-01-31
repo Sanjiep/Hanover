@@ -2,16 +2,42 @@
 
 import React from 'react'
 // import { useState } from 'react'
+import { useFormik } from 'formik';
 import DashNav from '@/components/dashboardnav/page'
 import PrelineScript from '@/components/PrelineScript'
-import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { cityList } from './data';
+import { Autocomplete, AutocompleteItem, useSelect } from "@nextui-org/react";
+import { CountryList } from './data';
+import { useSelector } from 'react-redux';
 function ContactList() {
-    // const [isChecked, setIsChecked] = useState(false);
 
-    // const handleCheckboxChange = () => {
-    //     // Toggle the checkbox state
-    //     setIsChecked(!isChecked);
+    const { userDetails } = useSelector(state => state.user)
+
+    const addContact = async (values) => {
+        values.userId = userDetails._id
+        const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(values),
+        });
+    }
+
+
+    const formik = useFormik({
+        initialValues: {
+            firstName: '',
+            lastName: '',
+            email: '',
+            country: '',
+            address: '',
+            phoneNumber: '',
+        },
+        // validationSchema: contactSchema,
+        onSubmit: (values) => {
+            addContact(values);
+            console.log(values);
+        },
+    });
+
     return (
         <DashNav>
             <div className="xl:max-w-[85rem] sm:px-8 lg:px-4 lg:py-5 mx-auto">
@@ -56,44 +82,53 @@ function ContactList() {
                                                 <div className="text-center mb-8">
                                                     <h2 className="block text-2xl font-bold text-gray-800 dark:text-gray-200">Add Contact</h2>
                                                 </div>
-                                                <form>
+                                                <form onSubmit={formik.handleSubmit}>
                                                     <div className="grid gap-y-4">
                                                         <div className='flex flex-cols-2 gap-4'>
                                                             <div className="relative">
                                                                 <label htmlFor="firstName" className="block text-sm mb-2 dark:text-white">First Name</label>
-                                                                <input type="text" id="firstName" name="firstName" className="py-3 px-4 border block w-full border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='First name' />
+                                                                <input type="text" onChange={formik.handleChange} value={formik.values.firstName} id="firstName" name="firstName" className="py-3 px-4 border block w-full border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='First name' />
                                                             </div>
 
                                                             <div className="relative">
                                                                 <label htmlFor="lastName" className="block text-sm mb-2 dark:text-white">Last Name</label>
-                                                                <input type="text" id="lastName" name="lastName" className="py-3 px-4 border block w-full border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Last name' />
+                                                                <input type="text" onChange={formik.handleChange} value={formik.values.lastName} id="lastName" name="lastName" className="py-3 px-4 border block w-full border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Last name' />
                                                             </div>
                                                         </div>
 
                                                         <div className="grid items-center">
                                                             <label htmlFor="mail" className="block text-sm mb-2 dark:text-white">Email</label>
                                                             <div className="relative">
-                                                                <input type="email" id="mail" name="mail" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Email' />
+                                                                <input type="email" onChange={formik.handleChange} value={formik.values.email} id="email" name="email" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Email' />
                                                             </div>
                                                         </div>
 
                                                         <div className="grid items-center">
-                                                            <label htmlFor="address" className="block text-sm mb-2 dark:text-white">Address</label>
-                                                            <Autocomplete
-                                                                placeholder="Address"
+                                                            <label htmlFor="country" className="block text-sm mb-2 dark:text-white">Country</label>
+                                                            <Autocomplete id='country' name='country' onChange={(CountryList) => {formik.setFieldValue('country', CountryList); // Update formik state
+                                                            }}
+                                                                value={formik.values.country}
+                                                                placeholder="Country"
                                                                 className="max-w-full"
                                                                 variant="bordered"
                                                                 size="sm"
-                                                                defaultItems={cityList}
+                                                                defaultItems={CountryList}
                                                             >
-                                                                {(city) => <AutocompleteItem key={city.value}>{city.label}</AutocompleteItem>}
+                                                                {(country) => <AutocompleteItem key={country.value}>{country.label}</AutocompleteItem>}
                                                             </Autocomplete>
+                                                        </div>
+
+                                                        <div className="grid items-center">
+                                                            <label htmlFor="address" className="block text-sm mb-2 dark:text-white">Address</label>
+                                                            <div className="relative">
+                                                                <input type="text" onChange={formik.handleChange} value={formik.values.address} id="address" name="address" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Addrress' />
+                                                            </div>
                                                         </div>
 
                                                         <div className="grid items-center">
                                                             <label htmlFor="phoneNumber" className="block text-sm mb-2 dark:text-white">Phone Number</label>
                                                             <div className="relative">
-                                                                <input type="tel" id="phoneNumber" name="phoneNumber" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Phone Number' />
+                                                                <input type="tel" onChange={formik.handleChange} value={formik.values.phoneNumber} id="phoneNumber" name="phoneNumber" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Phone Number' />
                                                             </div>
                                                         </div>
 

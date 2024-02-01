@@ -4,6 +4,7 @@ import React from "react";
 import Layout from "@/components/pageLayout/page";
 import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { cityList } from "./data";
+import Link from "next/link";
 function sentParcel() {
   return (
     <div>
@@ -52,6 +53,7 @@ function sentParcel() {
                     label="From"
                     placeholder="Select a city"
                     className="max-w-full"
+                    required
                   >
                     {cityList.map((city) => (
                       <AutocompleteItem key={city.value} value={city.value}>
@@ -81,6 +83,7 @@ function sentParcel() {
                     label="To"
                     placeholder="Select a city"
                     className="mb-2"
+                    required
                   >
                     {cityList.map((city) => (
                       <AutocompleteItem key={city.value} value={city.value}>
@@ -91,11 +94,11 @@ function sentParcel() {
 
 
                 </div>
-                <button
+                <Link href={'/login'}
                   type="submit"
                   className="flex max-w-full justify-center rounded-md bg-red-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
                   Processed
-                </button>
+                </Link>
               </div>
             </div>
             <div className="flex flex-wrap max-w-lg pl-10 content-center">

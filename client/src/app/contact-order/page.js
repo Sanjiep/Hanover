@@ -121,7 +121,7 @@ function ContactList() {
                                                         <div className="grid items-center">
                                                             <label htmlFor="address" className="block text-sm mb-2 dark:text-white">Address</label>
                                                             <div className="relative">
-                                                                <input type="text" onChange={formik.handleChange} value={formik.values.address} id="address" name="address" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Addrress' />
+                                                                <input type="text" onChange={formik.handleChange} value={formik.values.address} id="address" name="address" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Address' />
                                                             </div>
                                                         </div>
 

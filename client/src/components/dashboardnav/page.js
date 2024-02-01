@@ -4,7 +4,7 @@ import React, { Children } from 'react'
 import PrelineScript from '../PrelineScript'
 import Link from 'next/link'
 import { Divider } from '@nextui-org/react'
-import { logout } from '@/app/redux/reducerSlice/userSlice'
+import { logout } from '@/redux/reducerSlice/userSlice'
 import { useDispatch } from 'react-redux'
 import { useRouter, usePathname } from 'next/navigation'
 

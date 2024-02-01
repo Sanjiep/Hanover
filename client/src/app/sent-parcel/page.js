@@ -2,7 +2,7 @@
 
 import React from "react";
 import Layout from "@/components/pageLayout/page";
-import { Select, SelectItem } from "@nextui-org/react";
+import { Autocomplete, AutocompleteItem, Select, SelectItem } from "@nextui-org/react";
 import { cityList } from "./data";
 function sentParcel() {
   return (
@@ -48,17 +48,17 @@ function sentParcel() {
                     <circle cx="12" cy="12" r="1" />
                   </svg>
                   <div className="before:absolute before:opacity-80 before:border-gray-400 before:border-dashed before:border before:h-12 mt-6 before:-ml-[18px]"></div>
-                  <Select
+                  <Autocomplete
                     label="From"
                     placeholder="Select a city"
                     className="max-w-full"
                   >
                     {cityList.map((city) => (
-                      <SelectItem key={city.value} value={city.value}>
+                      <AutocompleteItem key={city.value} value={city.value}>
                         {city.label}
-                      </SelectItem>
+                      </AutocompleteItem>
                     ))}
-                  </Select>
+                  </Autocomplete>
                 </div>
 
                 <div className="w-full flex gap-3 items-center mb-3">
@@ -77,17 +77,17 @@ function sentParcel() {
                     <circle cx="12" cy="10" r="3" />
                   </svg>
 
-                  <Select
+                  <Autocomplete
                     label="To"
                     placeholder="Select a city"
                     className="mb-2"
                   >
                     {cityList.map((city) => (
-                      <SelectItem key={city.value} value={city.value}>
+                      <AutocompleteItem key={city.value} value={city.value}>
                         {city.label}
-                      </SelectItem>
+                      </AutocompleteItem>
                     ))}
-                  </Select>
+                  </Autocomplete>
 
 
                 </div>

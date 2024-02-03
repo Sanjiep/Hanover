@@ -12,43 +12,43 @@ function Dashboard() {
                     <h1 className='text-xl font-bold text-gray-600 mb-5'>Overview</h1>
                 </div>
                 <div className='grid xl:grid-cols-4 gap-4 mb-5 sm:grid-cols-2 '>
-                    <div class="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <div class="p-2 md:p-4">
+                    <div className="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="p-2 md:p-4">
                             <div className='flex gap-4'>
-                                <svg className='bg-[#d5ffd7] border-[#d5ffd7] rounded-xl border-5' xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0ac216" strokeWidth="1.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-package-check"><path d="m16 16 2 2 4-4" /><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" /><path d="m7.5 4.27 9 5.15" /><polyline points="3.29 7 12 12 20.71 7" /><line x1="12" x2="12" y1="22" y2="12" /></svg>
+                                <svg className='bg-[#d5ffd7] border-[#d5ffd7] rounded-xl border-5' xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#0ac216" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="m16 16 2 2 4-4" /><path d="M21 10V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l2-1.14" /><path d="m7.5 4.27 9 5.15" /><polyline points="3.29 7 12 12 20.71 7" /><line x1="12" x2="12" y1="22" y2="12" /></svg>
                                 <div className='grid'>
-                                    <h3 class="text-md font-semibold text-gray-500 dark:text-white">
+                                    <h3 className="text-md font-semibold text-gray-500 dark:text-white">
                                         Successful Delivery
                                     </h3>
-                                    <p class="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
+                                    <p className="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
                                         100
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <div class="p-2 md:p-4">
+                    <div className="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="p-2 md:p-4">
                             <div className='flex gap-4'>
                                 <svg className='bg-[#b7ddff] border-[#b7ddff] rounded-xl border-5' width="40" height="40" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" stroke="#2e63f3" stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6m8-3V4M8 8H3" />
+                                    <path fill="none" stroke="#2e63f3" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M2 4h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-6m8-3V4M8 8H3" />
                                 </svg>
                                 <div className='grid'>
-                                    <h3 class="text-md font-semibold text-gray-500 dark:text-white">
+                                    <h3 className="text-md font-semibold text-gray-500 dark:text-white">
                                         On Going Delivery
                                     </h3>
-                                    <p class="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
+                                    <p className="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
                                         20
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <div class="p-2 md:p-4">
+                    <div className="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="p-2 md:p-4">
                             <div className='flex gap-4'>
                                 <svg className='bg-[#f6ecca] border-[#f6ecca] rounded-xl border-5' width="40" height="40" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
-                                    <g fill="none" stroke="#FF9966" stroke-linecap="round" stroke-linejoin="round">
+                                    <g fill="none" stroke="#FF9966" strokeLinecap="round" strokeLinejoin="round">
                                         <circle cx="6" cy="12.49" r="1" />
                                         <circle cx="10.5" cy="12.49" r="1" />
                                         <path d="M8.38 3.53A4 4 0 1 0 2 7.62m2.5-3.11L6 3.01m.5 6.49v-1H5a2 2 0 0 0-2 2v2" />
@@ -56,28 +56,28 @@ function Dashboard() {
                                     </g>
                                 </svg>
                                 <div className='grid'>
-                                    <h3 class="text-md font-semibold text-gray-500 dark:text-white">
+                                    <h3 className="text-md font-semibold text-gray-500 dark:text-white">
                                         Pending Delivery
                                     </h3>
-                                    <p class="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
+                                    <p className="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
                                         50
                                     </p>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
-                        <div class="p-2 md:p-4">
+                    <div className="flex flex-col items-start justify-center bg-white border shadow-sm rounded-xl dark:bg-slate-900 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                        <div className="p-2 md:p-4">
                             <div className='flex gap-4'>
                                 <svg className='bg-[#ffcaca] border-[#ffcaca] rounded-xl border-5' width="40" height="40" viewBox="0 0 24 24" stroke='1.5' xmlns="http://www.w3.org/2000/svg">
-                                    <path fill="none" stroke="#DC3023" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.812 4.793L12 3l8 4.5V16m-2.282 1.784L12 21l-8-4.5v-9l2.223-1.25m8.32 4.32L20 7.5M12 12v9m0-9L4 7.5m12-2.25l-4.35 2.447M9.086 9.139L8 9.75M3 3l18 18" />
+                                    <path fill="none" stroke="#DC3023" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8.812 4.793L12 3l8 4.5V16m-2.282 1.784L12 21l-8-4.5v-9l2.223-1.25m8.32 4.32L20 7.5M12 12v9m0-9L4 7.5m12-2.25l-4.35 2.447M9.086 9.139L8 9.75M3 3l18 18" />
                                 </svg>
 
                                 <div className='grid'>
-                                    <h3 class="text-md font-semibold text-gray-500 dark:text-white">
+                                    <h3 className="text-md font-semibold text-gray-500 dark:text-white">
                                         Cancelled Delivery
                                     </h3>
-                                    <p class="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
+                                    <p className="mt-2 text-2xl font-bold text-start text-gray-800 dark:text-gray-400">
                                         20
                                     </p>
                                 </div>

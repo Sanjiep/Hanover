@@ -4,8 +4,6 @@ import React, { useEffect, useState } from 'react'
 import { useFormik } from 'formik';
 import DashNav from '@/components/dashboardnav/page'
 import PrelineScript from '@/components/PrelineScript'
-import { Autocomplete, AutocompleteItem, useSelect } from "@nextui-org/react";
-import { CountryList } from './data';
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
@@ -85,7 +83,6 @@ function ContactOrder() {
             </tr>
         )
     }
-
     const [contactList, setContactList] = useState([])
     const { userDetails } = useSelector(state => state.user)
 
@@ -153,7 +150,7 @@ function ContactOrder() {
                                             Contacts
                                         </h2>
                                         <p className="text-sm text-gray-600 dark:text-gray-400">
-                                            Your saved Contact List.
+                                            Create contact list.
                                         </p>
                                     </div>
 
@@ -230,6 +227,7 @@ function ContactOrder() {
                                                         <button type='submit' className="w-full mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#modal-contact">Add</button>
                                                     </div>
                                                 </form>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -262,14 +260,6 @@ function ContactOrder() {
                                                 </div>
                                             </th>
 
-                                            {/* <th scope="col" className="px-6 py-3 text-start">
-                        <div className="flex items-center gap-x-2">
-                          <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
-                            Country
-                          </span>
-                        </div>
-                      </th> */}
-
                                             <th scope="col" className="px-6 py-3 text-start">
                                                 <div className="flex items-center gap-x-2">
                                                     <span className="text-xs font-semibold uppercase tracking-wide text-gray-800 dark:text-gray-200">
@@ -285,9 +275,10 @@ function ContactOrder() {
                                                     </span>
                                                 </div>
                                             </th>
+                                            <th scope="col" class="px-6 py-3 text-end"></th>
                                         </tr>
                                     </thead>
-
+                             
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {contactList.length > 0 && contactList.map((items) => {

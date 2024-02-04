@@ -6,7 +6,7 @@ import DashNav from '@/components/dashboardnav/page'
 import PrelineScript from '@/components/PrelineScript'
 import { Autocomplete, AutocompleteItem, useSelect } from "@nextui-org/react";
 import { CountryList } from './data';
-import contactList from '@/components/contactList/page';
+import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 
 function ContactOrder() {
@@ -95,19 +95,33 @@ function ContactOrder() {
         setContactList(data.contactList);
         console.log(data.contactList);
     }
+
     useEffect(() => {
         fetchContact()
     }, [])
 
     const addContact = async (values) => {
         values.userId = userDetails._id
-        const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(values),
-        });
-    }
+        try {
+            const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(values),
+            });
 
+            if (res.ok) {
+                fetchContact();
+                toast.success('Contact added successfully');
+            } else {
+                // Handle non-OK response
+                toast.error('Failed to add contact. Please check your data.');
+            }
+        } catch (error) {
+            // Handle fetch error
+            console.error('Error during fetch:', error);
+            toast.error('Something went wrong. Please try again.');
+        }
+    };
 
     const formik = useFormik({
         initialValues: {
@@ -121,6 +135,7 @@ function ContactOrder() {
         // validationSchema: contactSchema,
         onSubmit: (values) => {
             addContact(values);
+            // props?.fetchContacts()
             // console.log(values);
         },
     });
@@ -195,17 +210,7 @@ function ContactOrder() {
                                                             <div className="relative">
                                                                 <input type="text" onChange={formik.handleChange} value={formik.values.country} id="countrt" name="country" className="py-3 px-4 block w-full border border-gray-400 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600" required placeholder='Country' />
                                                             </div>
-                                                            {/* <Autocomplete id='country' name='country' onChange={(CountryList) => {formik.setFieldValue('country', CountryList); // Update formik state
-                                                            }}
-                                                                value={formik.values.country}
-                                                                placeholder="Country"
-                                                                className="max-w-full"
-                                                                variant="bordered"
-                                                                size="sm"
-                                                                defaultItems={CountryList}
-                                                            >
-                                                                {(country) => <AutocompleteItem key={country.value}>{country.label}</AutocompleteItem>}
-                                                            </Autocomplete> */}
+
                                                         </div>
 
                                                         <div className="grid items-center">
@@ -222,14 +227,13 @@ function ContactOrder() {
                                                             </div>
                                                         </div>
 
-                                                        <button type='submit' className="w-full mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Add</button>
+                                                        <button type='submit' className="w-full mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#modal-contact">Add</button>
                                                     </div>
                                                 </form>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-
 
 
                                 <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
@@ -285,11 +289,11 @@ function ContactOrder() {
                                     </thead>
 
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-                                        
-                                        {contactList.length > 0 && contactList.map((items)=>{
+
+                                        {contactList.length > 0 && contactList.map((items) => {
                                             return <ContactData items={items} />
                                         })}
-                                        
+
                                     </tbody>
                                 </table>
 

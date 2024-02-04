@@ -1,5 +1,5 @@
 import React from 'react'
-import Contact from '@/components/contact/page'
+import Contact from '@/components/contactList/page'
 import PageLayout from '@/components/pageLayout/page'
 import './styles.css'
 import Link from 'next/link'

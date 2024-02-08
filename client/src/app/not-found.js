@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PageNotFound() {
+function NotFound() {
     return (
         <div>
             <div className="flex flex-col justify-center items-center mx-auto h-screen xl:px-0 dark:bg-gray-900">
@@ -20,4 +20,4 @@ function PageNotFound() {
     )
 }
 
-export default PageNotFound
+export default NotFound

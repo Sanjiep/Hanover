@@ -4,9 +4,12 @@ import PrelineScript from '../PrelineScript';
 import React from 'react'
 import { Navbar, NavbarBrand, Button, NavbarContent, NavbarItem, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Divider, Checkbox } from "@nextui-org/react";
 import Link from 'next/link';
-
+import { useSelector, useDispatch } from 'react-redux';
 
 function navbar() {
+
+  const { isLogIn } = useSelector(state => state.user);
+
   return (
     <div className="sticky top-0 flex shadow-sm backdrop-filter border-b backdrop-blur-lg bg-opacity-80 flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-2 dark:bg-gray-800">
       <nav className="max-w-[85rem] w-full mx-auto px-4 md:px-6 lg:px-8" aria-label="Global">
@@ -191,7 +194,6 @@ function navbar() {
               </button>
             </div>
           </div>
-
           <div id="navbar-collapse-with-animation" className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block">
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100 [&::-webkit-scrollbar-thumb]:bg-gray-300 dark:[&::-webkit-scrollbar-track]:bg-slate-700 dark:[&::-webkit-scrollbar-thumb]:bg-slate-500">
               <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:ps-7 md:divide-y-0 md:divide-solid dark:divide-gray-700">
@@ -331,7 +333,7 @@ function navbar() {
                 </Link>
 
                 <div className="pt-3 md:pt-0">
-                  <Link className="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/login">
+                  <Link className="py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href={isLogIn ? '/dashboard' : '/login'}>
                     Login
                   </Link>
                 </div>
@@ -342,7 +344,6 @@ function navbar() {
       </nav>
       <PrelineScript />
     </div>
-
   )
 }
 

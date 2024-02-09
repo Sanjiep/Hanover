@@ -11,7 +11,6 @@ function footer() {
                     <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-6">
                         <div className="col-span-full lg:col-span-1">
                             <Link className="flex-none text-xl font-semibold text-gray-700 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/" aria-label="Hanover">
-                                {/* <img className='w-60' src='hanover.svg' /> */}
                                 <svg className='w-60' xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" width="588" zoomAndPan="magnify" viewBox="0 0 440.88 171.750001" height="100" preserveAspectRatio="xMidYMid meet" version="1.0">
                                     <defs>
                                         <g />
@@ -201,7 +200,7 @@ function footer() {
                             <div className="mt-3 grid space-y-3">
                                 <p><Link className="inline-flex gap-x-2 text-gray-500 hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">About us</Link></p>
                                 <p><Link className="inline-flex gap-x-2 text-gray-500 hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Blog</Link></p>
-                                <p><Link className="inline-flex gap-x-2 text-gray-500 hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Careers</Link> <span className="inline ms-1 text-xs bg-red-700 text-white py-1 px-2 rounded-lg">We're hiring</span></p>
+                                <p><Link className="inline-flex gap-x-2 text-gray-500 hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="#">Careers</Link> <span className="inline ms-1 text-xs bg-red-700 text-white py-1 px-2 rounded-lg">We&apos;re hiring</span></p>
                                 <p><Link className="inline-flex gap-x-2 text-gray-500 hover:text-gray-300 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/help-center">Customers</Link></p>
                             </div>
                         </div>

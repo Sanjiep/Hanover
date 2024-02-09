@@ -101,16 +101,35 @@ function ContactOrder() {
     const [contactList, setContactList] = useState([])
     const { userDetails } = useSelector(state => state.user)
 
+    // const fetchContact = async () => {
+    //     const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`)
+    //     const data = await res.json()
+    //     setContactList(data.contactList);
+    //     console.log(data.contactList);
+    // }
+
+    // useEffect(() => {
+    //     fetchContact()
+    // }, [])
+
     const fetchContact = async () => {
-        const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`)
-        const data = await res.json()
+    try {
+        const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`);
+        const data = await res.json();
         setContactList(data.contactList);
         console.log(data.contactList);
+    } catch (error) {
+        // Handle fetch error
+        console.error('Error fetching contact:', error);
     }
+};
 
-    useEffect(() => {
-        fetchContact()
-    }, [])
+useEffect(() => {
+    // Only fetch contacts if userDetails._id is available
+    if (userDetails && userDetails._id) {
+        fetchContact();
+    }
+}, [userDetails]);
 
     const addContact = async (values) => {
         values.userId = userDetails._id
@@ -297,7 +316,7 @@ function ContactOrder() {
                                     <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
 
                                         {contactList.length > 0 && contactList.map((items) => {
-                                            return <ContactData items={items} />
+                                            return <ContactData key={items.id} items={items} />
                                         })}
 
                                     </tbody>

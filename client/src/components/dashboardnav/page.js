@@ -398,7 +398,7 @@ const DashNav = ({ children }) => {
                     </div>
                 </div>
             </div>
-            <div className="ml-4 lg:ml-64 p-4 lg:m-auto">
+            <div className="ml-4 lg:ml-64 p-4 max-sm:p-2 max-sm:mx-auto lg:m-auto">
                 {children}
             </div>
             <PrelineScript />

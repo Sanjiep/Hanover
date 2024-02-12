@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import * as Yup from 'yup';
 import { useRouter } from 'next/navigation';
 import { addUserDetails } from "@/redux/reducerSlice/userSlice";
-import { UseDispatch, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
     const router = useRouter();

@@ -2,11 +2,10 @@
 
 import PrelineScript from '../PrelineScript';
 import React from 'react'
-import { Navbar, NavbarBrand, Button, NavbarContent, NavbarItem, Input, DropdownItem, DropdownTrigger, Dropdown, DropdownMenu, Avatar, Divider, Checkbox } from "@nextui-org/react";
 import Link from 'next/link';
 import { useSelector, useDispatch } from 'react-redux';
 
-function navbar() {
+function Navbar() {
 
   const { isLogIn } = useSelector(state => state.user);
 
@@ -347,4 +346,4 @@ function navbar() {
   )
 }
 
-export default navbar
+export default Navbar

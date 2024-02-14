@@ -1,10 +1,43 @@
-import React from 'react'
+'use client'
+import React, { useState } from 'react'
 import DashNav from '@/components/dashboardnav/page'
 import { Button } from "@nextui-org/react";
 import Link from 'next/link';
 
 
 function CreateShipment() {
+
+    const [selectedTime, setSelectedTime] = useState('');
+    const [showOptions, setShowOptions] = useState(false);
+
+    // Function to generate time options in 12-hour format with AM/PM
+    const generateTime = () => {
+        let time = [];
+        for (let h = 1; h <= 12; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const hour = (h < 10 ? '0' : '') + h;
+                const minute = (m === 0 ? '00' : m);
+                const period = h < 12 ? 'AM' : 'PM'; // Determine AM/PM based on hour
+                time.push(`${hour}:${minute} ${period}`);
+            }
+        }
+        for (let h = 1; h <= 12; h++) {
+            for (let m = 0; m < 60; m += 15) {
+                const hour = (h < 10 ? '0' : '') + (h === 12 ? 12 : h);
+                const minute = (m === 0 ? '00' : m);
+                const period = h < 12 ? 'PM' : 'AM'; // Determine AM/PM based on hour
+                time.push(`${hour}:${minute} ${period}`);
+            }
+        }
+        return time;
+    };
+
+    // Function to handle time selection
+    const handleTimeSelection = (time) => {
+        setSelectedTime(time);
+        setShowOptions(false); // Hide options after selection
+    }
+
     return (
         <div>
             <DashNav>
@@ -17,7 +50,7 @@ function CreateShipment() {
                         </div>
                     </div>
 
-                    <div className='relative max-w-[50rem] max-sm:max-w-full bg-white border bg- shadow-sm items-center px-10 py-7 max-sm:py-4 max-sm:px-5 rounded-lg mx-auto'>
+                    <div className='sticky top-20 max-w-[50rem] max-sm:max-w-full items-center px-10 max-sm:py-4 max-sm:px-5 rounded-lg mx-auto'>
                         <ul class="relative flex flex-row gap-x-2 justify-center items-center">
                             <li class="shrink basis-0 flex-1 group relative">
                                 <div class="min-w-[28px] min-h-[28px] w-full inline-flex items-center text-xs align-middle">
@@ -224,8 +257,8 @@ function CreateShipment() {
                             </h2>
                         </div>
 
-                        <div className='flex gap-x-4 overflow-x-auto'>
-                            <Button type='button' className='flex flex-col py-8 px-10 items-center gap-x-2 text-md font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointr-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+                        <div className='flex gap-x-4 overflow-x-auto no-scrollbar'>
+                            <Button type='button' onClick={() => setShowOptions(!showOptions)} className='flex flex-col py-8 px-10 items-center gap-x-2 text-md font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointr-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
                                 <span className='font-bold'>14<p className='font-medium text-xs'>Wednesday</p></span>
                             </Button>
                             <Button type='button' className='flex flex-col py-8 px-10 items-center gap-x-2 text-md font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointr-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
@@ -248,18 +281,62 @@ function CreateShipment() {
                     </div>
 
                     <div>
-                        <div className='flex flex-col my-5'>
+                        {showOptions && (<div className='flex flex-col my-3'>
                             <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                                 Pickup time
                             </h2>
                         </div>
+                        )}
 
-                        {/* <Datepicker
-                            controls={['time']}
-                            select="range"
-                            touchUi={true}
-                        /> */}
+                        <div className='flex max-w-60 gap-x-5 items-center'>
+
+                            <div className="relative">
+                                {showOptions && (
+                                    <div className="mt-2 w-max  bg-transparent no-scrollbar overflow-y-auto max-h-48">
+                                        {generateTime().map((time, index) => (
+                                            <div
+                                                key={index}
+                                                className="py-2 px-3 text-md font-semibold cursor-pointer hover:bg-gray-100"
+                                                onClick={() => handleTimeSelection(time)}
+                                            >
+                                                {time}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className='relative flex items-center'>
+                                {showOptions && (<span className='relative flex m-auto w-14 justify-center text-center text-lg text-gray-600 font-medium'>To</span>
+                                )}
+                            </div>
+
+                            <div className="relative">
+                                {showOptions && (
+                                    <div className="mt-2 w-max  bg-transparent no-scrollbar overflow-y-auto max-h-48">
+                                        {generateTime().map((time, index) => (
+                                            <div
+                                                key={index}
+                                                className="py-2 px-3 text-md font-semibold cursor-pointer hover:bg-gray-100"
+                                                onClick={() => handleTimeSelection(time)}
+                                            >
+                                                {time}
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                            </div>
+                        </div>
                     </div>
+
+                    {showOptions && (<div className='realtive flex my-6 justify-center'>
+                        <button
+                            type="button"
+                            className="flex w-[10rem] max-[425px]:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
+                            Next
+                        </button>
+                    </div>
+                    )}
                 </div>
             </DashNav >
         </div >

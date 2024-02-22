@@ -227,7 +227,7 @@ function CreateShipment() {
                                         </div>
                                     </li>
                                     <div>
-                                        <div class="absolute bottom-[-23px] max-sm:bottom-[-15px] left-1/2 transform -translate-x-1/2 flex justify-center items-center max-sm:text-nowrap">
+                                        <div class="absolute bottom-[-23px] max-sm:bottom-[-30px] left-1/2 transform -translate-x-1/2 flex justify-center items-center max-sm:text-nowrap">
                                             <span className='font-semibold text-md max-sm:text-[12px]'>Where is the shipment location?</span>
                                         </div>
                                     </div>

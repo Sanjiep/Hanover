@@ -326,7 +326,7 @@ function Navbar() {
                   </div>
                 </div>
 
-                <Link className="font-medium text-gray-800 hover:text-gray-600 py-3 md:py-6 dark:text-gray-200 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/register">
+                <Link className="font-medium whitespace-nowrap text-gray-800 hover:text-gray-600 py-3 md:py-6 dark:text-gray-200 dark:hover:text-gray-500 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" href="/register">
                   Sign up
                   {/* <span className="py-0.5 px-1.5 rounded-full text-xs font-medium bg-red-50 border border-red-200 text-red-600">4</span> */}
                 </Link>

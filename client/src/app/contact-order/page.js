@@ -7,6 +7,7 @@ import PrelineScript from '@/components/PrelineScript'
 import { Dropdown, DropdownTrigger, DropdownMenu, DropdownItem, DropdownSection } from "@nextui-org/react";
 import { toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 function ContactOrder() {
 
@@ -114,12 +115,9 @@ function ContactOrder() {
 
     const fetchContact = async () => {
     try {
-        const res = await fetch(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`);
-        const data = await res.json();
+        const {data} = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`);
         setContactList(data.contactList);
-        console.log(data.contactList);
     } catch (error) {
-        // Handle fetch error
         console.error('Error fetching contact:', error);
     }
 };
@@ -258,10 +256,9 @@ useEffect(() => {
                                                             </div>
                                                         </div>
 
-                                                        <button type='submit' className="w-full mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600" data-hs-overlay="#modal-contact">Add</button>
+                                                        <button type='submit' className="w-full mt-5 py-3 px-4 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">Add</button>
                                                     </div>
                                                 </form>
-
                                             </div>
                                         </div>
                                     </div>

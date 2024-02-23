@@ -5,8 +5,9 @@ import customParseFormat from 'dayjs/plugin/customParseFormat';
 import DashNav from '@/components/dashboardnav/page'
 import { Button } from "@nextui-org/react";
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import { TimePicker } from 'antd';
+import { addShipmentDetails,addDeliveryTiming, setStep,setSelectedReceiverId} from '@/redux/reducerSlice/orderSlice'
 
 function CreateShipment() {
 
@@ -68,6 +69,7 @@ function CreateShipment() {
 
 
     const SenderInfo = () => {
+        const dispatch= useDispatch()
         return (
             <div>
                 <div className='flex flex-col my-3'>

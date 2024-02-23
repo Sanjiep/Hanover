@@ -11,6 +11,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   user: userReducer,
+  order:orderReducer
 })
 
 const persistedReducer = persistReducer(persistConfig, reducer)

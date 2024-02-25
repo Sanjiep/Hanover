@@ -7,7 +7,7 @@ import { Button } from "@nextui-org/react";
 import Link from 'next/link';
 import { useDispatch,useSelector } from 'react-redux';
 import { TimePicker } from 'antd';
-import { addShipmentDetails,addDeliveryTiming, setStep,setSelectedReceiverId} from '@/redux/reducerSlice/orderSlice'
+import { addShipmentDetails, addDeliveryTiming, setStep,setSelectedReceiverId, addPickupTiming} from '@/redux/reducerSlice/orderSlice'
 
 function CreateShipment() {
 
@@ -70,6 +70,19 @@ function CreateShipment() {
 
     const SenderInfo = () => {
         const dispatch= useDispatch()
+
+        const pickupDate = () => {
+            setShowOptions(!showOptions)
+            debugger;
+            alert(month, day, week)
+        }
+        // const{addPickupTiming} = useDispatch((state)=> state.order)
+        
+        dayjs.extend(customParseFormat);
+        const pickupTime = (time, timeString) => {
+            dispatch(addPickupTiming(timeString));
+        };
+
         return (
             <div>
                 <div className='flex flex-col my-3'>
@@ -99,7 +112,7 @@ function CreateShipment() {
                     </div>
 
                     <div className='flex gap-x-4 overflow-x-auto no-scrollbar'>
-                        <Button type='button' onClick={() => setShowOptions(!showOptions)} className='flex flex-col py-8 px-10 items-center gap-x-2 text-md font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointr-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
+                        <Button type='button' onClick={pickupDate} className='flex flex-col py-8 px-10 items-center gap-x-2 text-md font-medium rounded-lg border border-gray-200 bg-white text-gray-500 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointr-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-800 dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600'>
                             <span className='font-bold'>{day}<p className='font-medium text-xs'>{week}</p></span>
                         </Button>
                         {nextDays.map((day, index) => (
@@ -125,7 +138,7 @@ function CreateShipment() {
                     
                     
                     {showOptions && (
-                    <TimePicker className='border rounded-lg w-[10rem] px-3 py-2 border-gray-400' onChange={onChange} 
+                    <TimePicker className='border rounded-lg w-[10rem] px-3 py-2 border-gray-400' onChange={pickupTime}
                     defaultOpenValue={defaultOpenValue} // 2 hrs ahead
                     format="hh:mm A"
                     changeOnScroll= {true}
@@ -188,11 +201,6 @@ function CreateShipment() {
         // dispatch(setStep(step + 1));
         setStep(step + 1)
         console.log(step)
-    };
-
-    dayjs.extend(customParseFormat);
-    const onChange = (time, timeString) => {
-        console.log(time, timeString);
     };
 
     return (

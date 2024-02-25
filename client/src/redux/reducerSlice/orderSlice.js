@@ -76,8 +76,16 @@ export const orderSlice = createSlice({
                 }
             }
         },
+        addPickupTiming: (state, action) => {
+            return {
+                ...state,
+                pickupTime: {
+                    pickupTimining: action.payload
+                }
+            }
+        },
     }
 });
 
-export const { addShipmentDetails, setParcelImg, addDeliveryTiming, setStep, setSenderCoords, setReceiverCoords, setSenderAddr, setReceiverAddr, setSelectedReceiverId } = orderSlice.actions;
+export const { addShipmentDetails, setParcelImg, addDeliveryTiming, setStep, setSenderCoords, setReceiverCoords, setSenderAddr, setReceiverAddr, setSelectedReceiverId, addPickupTiming } = orderSlice.actions;
 export default orderSlice.reducer;

@@ -7,9 +7,10 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { TimePicker } from 'antd';
 import { addShipmentDetails, addDeliveryTiming, setStep, setSelectedReceiverId, addPickupTiming } from '@/redux/reducerSlice/orderSlice'
-import { Button, Autocomplete, AutocompleteItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from "@nextui-org/react";
+import { Button, Autocomplete, AutocompleteItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
 import { countryList } from './country';
+import axios from 'axios';
 
 function CreateShipment() {
 
@@ -198,8 +199,29 @@ function CreateShipment() {
     }
 
     const ReceiverInfo = () => {
+
+        const [contactList, setContactList] = useState([])
+        const { userDetails } = useSelector(state => state.user)
+        const { isOpen, onOpen, onOpenChange } = useDisclosure();
+
+        const fetchContact = async () => {
+            try {
+                const { data } = await axios.get(`http://localhost:${process.env.NEXT_PUBLIC_API_URL}/contact?userId=${userDetails._id}`);
+                setContactList(data.contactList);
+            } catch (error) {
+                console.error('Error fetching contact:', error);
+            }
+        };
+
+        useEffect(() => {
+            // Fetch contacts when userDetails._id changes
+            if (userDetails && userDetails._id) {
+                fetchContact();
+            }
+        }, [userDetails, fetchContact]);
+
         return (
-            <div className='grid justify-center'>
+            <div className='grid max-sm:justify-center'>
                 <div className='flex flex-col my-3'>
                     <h2 className="text-sm font-semibold text-gray-700 dark:text-gray-200">
                         Select Country<span className='text-red-500'>*</span>
@@ -210,7 +232,7 @@ function CreateShipment() {
                             size='sm'
                             defaultItems={countryList}
                             label="Select country"
-                            className="max-w-lg"
+                            className="max-w-md"
                         >
                             {(item) => <AutocompleteItem key={item.value}>{item.label}</AutocompleteItem>}
                         </Autocomplete>
@@ -252,9 +274,48 @@ function CreateShipment() {
 
                 <div className='max-w-md mb-3'>
                     <label className="text-sm font-semibold text-gray-700 dark:text-gray-200">Name<span className="text-red-500">*</span></label>
-                    <div className="relative">
+                    <div className="relative flex items-center">
                         <input type="text" placeholder='Name' id="name"
                             className={`py-3 px-4 block capitalize w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-5 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required />
+
+                        <button onClick={onOpen} className="focus:outline-none absolute right-4" type="button">
+                            <svg className="text-2xl text-default-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
+                                <path fill="#dc2626" d="M11.5 7.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM7 10.75V11a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-.25a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75ZM4 4v12a2 2 0 0 0 2 2h9.5a.5.5 0 0 0 0-1H6a1 1 0 0 1-1-1h10a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2Zm10-1a1 1 0 0 1 1 1v11H5V4a1 1 0 0 1 1-1h8Z" />
+                            </svg>
+                        </button>
+                        <Modal className='max-sm:h-1/2 overflow-auto' size="md" isOpen={isOpen} onOpenChange={onOpenChange}>
+                            <ModalContent>
+                                {(onClose) => (
+                                    <>
+                                        <ModalHeader className="flex flex-col gap-1 sticky top-0 bg-white">Contact List
+                                            <button className='absolute right-5' onClick={onClose}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#242424" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-x"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></svg>
+                                            </button>
+                                        </ModalHeader>
+                                        <ModalBody>
+                                            {contactList.length > 0 && contactList.map((items) => (
+                                                <div className="ps-2 lg:ps-3 xl:ps-2 pe-2 py-3 bg-gray-100 hover:bg-red-50 rounded-lg cursor-auto" key={items._id}>
+                                                    <div className="flex items-center gap-x-3">
+                                                        <span className="inline-flex items-center justify-center h-7 w-7 rounded-full bg-gray-300 dark:bg-gray-700">
+                                                            <span className="font-medium text-gray-800 leading-none dark:text-gray-200">{items.firstName[0]}</span>
+                                                        </span>
+                                                        <div className="grow">
+                                                            <span className="block text-sm font-semibold text-gray-800 dark:text-gray-200">{items.firstName} {items.lastName}</span>
+                                                            <span className="block text-sm text-gray-500">{items.email}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </ModalBody>
+                                        <ModalFooter className="hidden sm:flex">
+                                            <Button className='text-white' color="primary" onPress={onClose}>
+                                                Close
+                                            </Button>
+                                        </ModalFooter>
+                                    </>
+                                )}
+                            </ModalContent>
+                        </Modal>
                     </div>
                 </div>
 
@@ -263,26 +324,18 @@ function CreateShipment() {
                     <div className="relative flex items-center">
                         <input type="text" placeholder='Phone Number' id="phonenumber"
                             className={`py-3 px-4 block capitalize w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-5 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required />
-                        <Dropdown>
-                            <DropdownTrigger>
-                                <button className="focus:outline-none absolute right-4" type="button">
-                                    <svg className="text-2xl text-default-400 pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 20 20">
-                                        <path fill="#dc2626" d="M11.5 7.5a1.5 1.5 0 1 1-3 0a1.5 1.5 0 0 1 3 0ZM7 10.75V11a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-.25a.75.75 0 0 0-.75-.75h-4.5a.75.75 0 0 0-.75.75ZM4 4v12a2 2 0 0 0 2 2h9.5a.5.5 0 0 0 0-1H6a1 1 0 0 1-1-1h10a1 1 0 0 0 1-1V4a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2Zm10-1a1 1 0 0 1 1 1v11H5V4a1 1 0 0 1 1-1h8Z" />
-                                    </svg>
-                                </button>
-                            </DropdownTrigger>
-                            <DropdownMenu
-                                aria-label="Action event example"
-                                onAction={(key) => alert(key)}
-                            >
-                                <DropdownItem key="new">
-                                </DropdownItem>
 
-                            </DropdownMenu>
-                        </Dropdown>
 
                     </div>
                 </div>
+            </div>
+        )
+    }
+
+    const ShipmentInfo = () => {
+        return (
+            <div>
+                Document
             </div>
         )
     }
@@ -334,8 +387,10 @@ function CreateShipment() {
                                     </li>
                                     <div>
                                         <div class="absolute bottom-[-23px] max-sm:bottom-[-30px] left-1/2 transform -translate-x-1/2 flex justify-center items-center max-sm:text-nowrap">
-                                            <span className='font-semibold text-md max-sm:text-[12px]'>Where is the shipment location?</span>
+                                            <span className='font-semibold text-md max-sm:text-[12px]'>{step === 1 ? "Where is the shipment located?" : step === 2 ? "Where the receiver address?" : "What are you shipping"}
+                                            </span>
                                         </div>
+
                                     </div>
                                     <li class="shrink basis-0 flex-1 group relative">
                                         <div class="min-w-[28px] min-h-[28px] w-full inline-flex items-center text-xs align-middle">
@@ -350,15 +405,13 @@ function CreateShipment() {
                                             <div class="ms-2 w-full h-px flex-1 bg-gray-200 group-last:hidden dark:bg-gray-700"></div>
                                         </div>
                                         <div class="mt-3">
-                                            <span class="block text-sm ml-3 font-medium text-gray-300 dark:text-white">
+                                            <span class={`block text-sm ml-3 font-medium ${step >= 2 ? 'text-gray-800' : 'text-gray-300'} dark:text-white`}>
                                                 To
                                             </span>
                                         </div>
 
                                     </li>
-                                    <div class="absolute bottom-[-20px] max-sm:bottom-[-15px] left-1/2 transform hidden -translate-x-1/2 flex justify-center items-center max-sm:text-nowrap">
-                                        <span className='font-semibold text-md max-sm:text-[12px]'>Where is the shipment location?</span>
-                                    </div>
+                                    
                                     <li>
                                         <div class="min-w-[28px] min-h-[28px] w-full inline-flex items-center text-xs align-middle">
                                             <span class={`w-10 h-10 flex justify-center items-center flex-shrink-0 ${step == 3 ? 'bg-red-500' : 'bg-gray-300'} font-medium text-white rounded-full dark:bg-gray-700 dark:text-white`}>
@@ -372,14 +425,12 @@ function CreateShipment() {
                                             <div class="ms-2 w-full h-px flex-1 bg-gray-200 group-last:hidden dark:bg-gray-700"></div>
                                         </div>
                                         <div class="mt-3">
-                                            <span class="block text-sm font-medium text-gray-300 dark:text-white">
+                                            <span class={`block text-sm font-medium ${step >= 3 ? 'text-gray-800' : 'text-gray-300'} dark:text-white`}>
                                                 What
                                             </span>
                                         </div>
                                     </li>
-                                    <div class="absolute bottom-[-20px] max-sm:bottom-[-15px] left-1/2 transform hidden -translate-x-1/2 flex justify-center items-center max-sm:text-nowrap">
-                                        <span className='font-semibold text-md max-sm:text-[12px]'>Where is the shipment location?</span>
-                                    </div>
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -388,6 +439,7 @@ function CreateShipment() {
                     {step == 1 && <SenderInfo />}
                     {/* {step == 2 && route.push('')} */}
                     {step == 2 && <ReceiverInfo />}
+                    {step == 3 && <ShipmentInfo />}
 
                     <div className='flex my-6 gap-5 justify-center'>
                         {step >= 2 && (<div className='realtive'>

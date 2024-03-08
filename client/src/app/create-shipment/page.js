@@ -7,10 +7,11 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 import { TimePicker } from 'antd';
 import { addShipmentDetails, addDeliveryTiming, setStep, setSelectedReceiverId, addPickupTiming } from '@/redux/reducerSlice/orderSlice'
-import { Button, Autocomplete, AutocompleteItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
+import { Tooltip, Select, SelectItem, Button, Autocomplete, AutocompleteItem, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure } from "@nextui-org/react";
 import { useRouter } from 'next/navigation';
 import { countryList } from './country';
 import axios from 'axios';
+import PrelineScript from '@/components/PrelineScript';
 
 function CreateShipment() {
 
@@ -333,9 +334,141 @@ function CreateShipment() {
     }
 
     const ShipmentInfo = () => {
+        const [isActive, setIsActive] = useState(false);
+
+        const toggleButton = () => {
+            setIsActive(!isActive);
+        };
+
+        const [estimatedWeight, setEstimatedWeight] = useState('0.5');
+        const handleEstimatedWeightChange = (e) => {
+            setEstimatedWeight(e.target.value);
+        };
+
+        const unit = [
+            { label: "Kg", value: "kg" },
+            { label: "Lb", value: "lb" }
+        ]
+
+        const [selectedUnit, setSelectedUnit] = useState("kg"); // Set default value to "kg"
+
+        const handleChange = (event) => {
+            setSelectedUnit(event.target.value);
+        };
+
         return (
             <div>
-                Document
+                <div className='flex justify-center mt-4 mb-5'>
+                    <div className={`flex w-max ${isActive ? 'bg-gray-200 dark:bg-gray-700' : 'bg-gray-200/[0.5] dark:bg-gray-700/[0.7] '} hover:bg-gray-200 dark:hover:bg-gray-700/[0.7] rounded-xl transition`}>
+                        <nav className="flex space-x-1" aria-label="Tabs">
+                            <button
+                                type="button"
+                                className={`hs-tab-active:bg-white hs-tab-active:text-red-500 hs-tab-active:shadow-md flex gap-1 items-center text-sm max-sm:text-xs text-gray-500 hover:text-gray-700 font-medium rounded-lg py-3 px-5 dark:text-gray-400 dark:hover:text-white dark:hs-tab-active:bg-gray-800 transition duration-200 ease-out dark:hs-tab-active:text-gray-400 ${isActive ? '' : 'active'}`}
+                                id="ctc-component-multi-toggle-tab-preview-item"
+                                data-hs-tab="#ctc-component-multi-toggle-tab-preview"
+                                aria-controls="ctc-component-multi-toggle-tab-preview"
+                                role="tab"
+                                onClick={toggleButton}
+                            >
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M14 2.26953V6.40007C14 6.96012 14 7.24015 14.109 7.45406C14.2049 7.64222 14.3578 7.7952 14.546 7.89108C14.7599 8.00007 15.0399 8.00007 15.6 8.00007H19.7305M16 13H8M16 17H8M10 9H8M14 2H8.8C7.11984 2 6.27976 2 5.63803 2.32698C5.07354 2.6146 4.6146 3.07354 4.32698 3.63803C4 4.27976 4 5.11984 4 6.8V17.2C4 18.8802 4 19.7202 4.32698 20.362C4.6146 20.9265 5.07354 21.3854 5.63803 21.673C6.27976 22 7.11984 22 8.8 22H15.2C16.8802 22 17.7202 22 18.362 21.673C18.9265 21.3854 19.3854 20.9265 19.673 20.362C20 19.7202 20 18.8802 20 17.2V8L14 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                                </svg>
+                                Document
+                            </button>
+                            <button
+                                type="button"
+                                className={`hs-tab-active:bg-white hs-tab-active:text-red-500 hs-tab-active:shadow-md text-sm max-sm:text-xs flex gap-1 items-center text-gray-500 hover:text-gray-700 font-medium rounded-lg py-3 px-5 dark:text-gray-400 dark:hover:text-white dark:hs-tab-active:bg-gray-800 transition duration-200 ease-out dark:hs-tab-active:text-gray-400 ${isActive ? 'active' : ''}`}
+                                id="ctc-component-multi-toggle-tab-html-item"
+                                data-hs-tab="#ctc-component-multi-toggle-tab-html"
+                                aria-controls="ctc-component-multi-toggle-tab-html"
+                                role="tab"
+                                onClick={toggleButton}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <g fill="none" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+                                        <path d="M12 8V4m-1 12H8m-2.5 4h13a1.5 1.5 0 0 0 1.5-1.5V8.236a1 1 0 0 0-.106-.447l-1.341-2.683A2 2 0 0 0 16.763 4H7.237a2 2 0 0 0-1.789 1.106L4.106 7.789A1 1 0 0 0 4 8.236V18.5A1.5 1.5 0 0 0 5.5 20Z" />
+                                        <path stroke-linejoin="round" d="M5 8h14" />
+                                    </g>
+                                </svg>
+                                Parcel
+                            </button>
+                        </nav>
+                    </div>
+                </div>
+
+                <div className="max-w-md flex mx-auto flex-row gap-3 mt-5 mb-5">
+                    <div className='basis-4/5 max-sm:basis-3/5'>
+                        <div className='flex justify-between items-center'>
+                            <label className="text-sm max-sm:text-xs font-semibold text-gray-700 dark:text-gray-200">Estimated weight<span className="text-red-500">*</span></label>
+
+                            <div id="hs-vertically-centered-modal" class="hs-overlay sm:hidden hidden size-full fixed top-0 start-0 z-[80] overflow-x-hidden overflow-y-auto pointer-events-none">
+                                <div class="hs-overlay-open:mt-7 hs-overlay-open:opacity-100 hs-overlay-open:duration-500 mt-0 opacity-0 ease-out transition-all sm:max-w-lg sm:w-full m-3 sm:mx-auto min-h-[calc(100%-3.5rem)] flex items-center">
+                                    <div class="w-full flex flex-col bg-white border shadow-sm rounded-xl dark:bg-gray-800 dark:border-gray-700 dark:shadow-slate-700/[.7]">
+                                        <div class="flex justify-between items-center py-3 px-4 dark:border-gray-700">
+                                        <div className='max-w-[20rem] text-center items-center p-2'>
+                                            <h1 className='font-bold text-md text-gray-800 mb-3'>Estimated value.</h1>
+                                            <p className='font-normal text-sm text-wrap flex text-center '>Please ensure that weight is accurate to avoid any delay caused by weight difference. Price may change in case weight was different.</p>
+                                        </div>
+                                        </div>
+                                        <div class="flex justify-center w-full items-center py-2 px-4 dark:border-gray-700">
+                                            <button type="button" class="py-2 px-4 mx-auto w-full inline-flex justify-center items-center text-center gap-x-2 text-xs font-semibold rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 disabled:pointer-events-none dark:focus:outline-none dark:focus:ring-1 dark:focus:ring-gray-600">
+                                                OK
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div data-hs-overlay="#hs-vertically-centered-modal" className='cursor-pointer'>
+                                <Tooltip
+                                    content={
+                                        <div className='max-w-[20rem] text-center items-center mt-3 mb-3 p-2'>
+                                            <h1 className='font-bold text-md text-gray-800 mb-3'>Estimated value.</h1>
+                                            <p className='font-normal text-sm text-wrap flex text-start '>Please ensure that weight is accurate to avoid any delay caused by weight difference. Price may change in case weight was different.</p>
+                                        </div>
+                                    }
+                                    closeDelay="100"
+                                    showArrow
+                                    placement="top">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 24 24">
+                                        <g fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                            <path d="M0 0h24v24H0z" />
+                                            <path fill="#dc2626" d="M12 2c5.523 0 10 4.477 10 10a10 10 0 0 1-19.995.324L2 12l.004-.28C2.152 6.327 6.57 2 12 2zm0 13a1 1 0 0 0-.993.883L11 16l.007.127a1 1 0 0 0 1.986 0L13 16.01l-.007-.127A1 1 0 0 0 12 15zm1.368-6.673a2.98 2.98 0 0 0-3.631.728a1 1 0 0 0 1.44 1.383l.171-.18a.98.98 0 0 1 1.11-.15a1 1 0 0 1-.34 1.886l-.232.012A1 1 0 0 0 11.997 14a3 3 0 0 0 1.371-5.673z" />
+                                        </g>
+                                    </svg>
+                                </Tooltip>
+                            </div>
+                        </div>
+
+                        <div className="relative">
+                            <input type="text" value={estimatedWeight} onChange={handleEstimatedWeightChange} id="weight" placeholder='0.5'
+                                className={`py-3 px-4 max-sm:text-xs font-semibold block capitalize w-full border-gray-200 border-1 rounded-lg text-sm focus:border-red-500 focus:ring-red-500 disabled:opacity-5 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600`} required />
+                        </div>
+                    </div>
+
+
+                    <div className='basis-1/5 max-sm:basis-2/4'>
+                        <label className="text-sm max-sm:text-xs font-semibold text-gray-700 dark:text-gray-200">Unit</label>
+                        <div className="relative">
+                            <Select
+                                className='rounded-lg sm:w-50 lg:w-200 text-gray-600 font-semibold'
+                                style={{ height: '45px', borderRadius: '0.5rem' }} // Set the width and height here
+                                size="large" // You can adjust the size: 'small', 'medium', 'large'
+                                variant='bordered'
+                                defaultSelectedKeys={[selectedUnit]} // Set the default selected value
+                                onChange={handleChange}
+                            >
+                                {unit.map((item) => (
+                                    <SelectItem key={item.value} value={item.value}>
+                                        {item.label}
+                                    </SelectItem>
+                                ))}
+                            </Select>
+                        </div>
+                    </div>
+                </div>
+                <PrelineScript/>
             </div>
         )
     }
@@ -411,7 +544,7 @@ function CreateShipment() {
                                         </div>
 
                                     </li>
-                                    
+
                                     <li>
                                         <div class="min-w-[28px] min-h-[28px] w-full inline-flex items-center text-xs align-middle">
                                             <span class={`w-10 h-10 flex justify-center items-center flex-shrink-0 ${step == 3 ? 'bg-red-500' : 'bg-gray-300'} font-medium text-white rounded-full dark:bg-gray-700 dark:text-white`}>
@@ -430,7 +563,7 @@ function CreateShipment() {
                                             </span>
                                         </div>
                                     </li>
-                                    
+
                                 </ul>
                             </div>
                         </div>
@@ -441,34 +574,35 @@ function CreateShipment() {
                     {step == 2 && <ReceiverInfo />}
                     {step == 3 && <ShipmentInfo />}
 
-                    <div className='flex my-6 gap-5 justify-center'>
+                    <div className='flex my-6 gap-10 max-sm:gap-5 w-full justify-center'>
                         {step >= 2 && (<div className='realtive'>
                             <button onClick={handleBack}
                                 type="button"
-                                className="flex w-[10rem] max-[425px]:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
+                                className="flex w-[10rem] max-sm:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
                                 Back
-                            </button>
+                            </button> 
                         </div>
                         )}
                         <div className='realtive'>
                             {step < 3 ? (
                                 <button onClick={handleNext}
                                     type="button"
-                                    className="flex w-[10rem] max-[425px]:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
+                                    className="flex w-[10rem] max-sm:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
                                     Next
                                 </button>
                             ) : (
                                 <button onClick={''}
                                     type="button"
-                                    className="flex w-[10rem] max-[425px]:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
+                                    className="flex w-[10rem] max-sm:w-full rounded-md bg-red-600 px-3 py-2 text-sm justify-center font-semibold leading-6 text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2 focus-visible:outline-red-300">
                                     Confirm
                                 </button>
                             )}
                         </div>
                     </div>
                 </div>
-            </DashNav >
-        </div >
+            </DashNav>
+            <PrelineScript />
+        </div>
     )
 }
 

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { GoogleMap, useJsApiLoader } from '@react-google-maps/api'
+import { GoogleMap, Marker, useJsApiLoader } from '@react-google-maps/api'
 
 const Map = () => {
 
@@ -10,31 +10,46 @@ const Map = () => {
   })
   if (loadError) {
     return <div>Map cannot be loaded right now, sorry.</div>
-  } else if(isLoaded){
-      return(
-        <div className='pl-5'>
+  } else if (isLoaded) {
+    return (
+      <div className='flex justify-center'>
 
         <GoogleMap
-        id="circle-example"
-        mapContainerStyle={{
-            height: "600px",
-            width: "500px"
-        }}
-        zoom={12}
-        center={{
+          mapContainerStyle={{
+            height: "87vh",
+            width: "100%"
+          }}
+          zoom={12}
+          center={{
             lat: 27.700769,
             lng: 85.300140
-        }}
-        options={{
+          }}
+          options={{
+            zoomControl: false,
             mapTypeControl: false,
+            scaleControl: false,
             streetViewControl: false,
+            rotateControl: false,
+            fullscreenControl: false
           }}
         >
-          </GoogleMap>
-        </div>
-      )
+
+          <div>
+            <Marker
+              draggable={true}
+              onDragEnd={dragSender}
+              icon={{
+                url: "",
+                scaledSize: { width: 70, height: 100 },
+              }}
+              position={senderCoords}
+            />
+          </div>
+        </GoogleMap>
+      </div>
+    )
   }
- 
-  }
+
+}
 
 export default Map
